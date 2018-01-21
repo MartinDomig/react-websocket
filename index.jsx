@@ -23,6 +23,10 @@ class Websocket extends React.Component {
         }
         return Math.min(30, (Math.pow(2, k) - 1)) * 1000;
     }
+    
+    getSocketInstance() {
+      return this.state.ws;
+    }
 
     setupWebsocket() {
       let websocket = this.state.ws;
@@ -33,8 +37,7 @@ class Websocket extends React.Component {
       };
 
       websocket.onmessage = (evt) => {
-        try { this.props.onMessage(JSON.parse(evt.data)); }
-        catch(err) { this.logging(err); }
+        this.props.onMessage(evt.data);
       };
 
       this.shouldReconnect = this.props.reconnect;
